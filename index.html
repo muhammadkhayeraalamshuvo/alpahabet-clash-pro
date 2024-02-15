@@ -68,24 +68,25 @@
                 <button class="btn text-white bg-[#894189] border-none">
                     Life
                     <img src="images/Vector.svg" class="h-3" alt="">
-                    <span>1</span>
+                    <span id="current-life">5</span>
                 </button>
                 <button class="btn text-white bg-blue-700 border-none">
                     Score
                     <i class="fa-solid fa-dollar-sign"></i>
-                    <span>1</span>
+                    <span id="current-score">0</span>
                 </button>
             </div>
 
         </section>
-        <section class="score min-h-screen flex justify-center items-center hidden">
+        <section id="section-3" class="score min-h-screen flex justify-center items-center hidden">
             <div class="text-white flex flex-col items-center gap-4 border-[1px] p-6 back border-none rounded-md">
+            <h2 class="text-2xl">Game Over!</h2>
              <h1 class="text-5xl font-bold">
                 <span class="capitalize ">score:</span>
-                <span >14</span>
+                <span id="score-board">0</span>
             </h1>
             <div> 
-            <button class="btn capitalize">play again</button>
+            <button onclick="playAgain()" class="btn capitalize">play again</button>
             </div>
             <p class="capitalize">practice will make you pro</p>               
             </div>
