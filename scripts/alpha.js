@@ -27,7 +27,7 @@ function showInTheScreen(random){
 
 function removeBackgroundById(identity){
   const element=document.getElementById(identity);
-  console.log(element);
+
   element.removeAttribute("style");
 };
 
@@ -42,11 +42,15 @@ function updateTheScore(identity,newScore){
  element.innerText=newScore;
 }
 
-function storeScore(newScore){
-  return newScore;
-}
+
+
+const audio=new Audio;
+let isSelected=false;
+const artBoard=document.getElementById("art-board");
+
 
 function handleKeyboardKeyUpEvent(event){
+  if(isSelected===false) return;
   const playerPressed=event.key;
   if(playerPressed==='Escape'){
     gameOver();
@@ -54,17 +58,18 @@ function handleKeyboardKeyUpEvent(event){
   const currentAlphabetElement=document.getElementById("showTheAlphabet");
   const currentAlphabet=currentAlphabetElement.innerText;
   const expectedAlphabet=currentAlphabet.toLowerCase();
-  console.log(playerPressed,expectedAlphabet);
+
   if(expectedAlphabet===playerPressed)
   {
     console.log("you win ");
+    console.log(audio);
+    audio.src="../success.mp3";
+    audio.play();
     // scrore update
-    // const currentScoreElement=document.getElementById("current-score");
-    // const currentScoreText=currentScoreElement.innerText;
-    // const currentScore=parseInt(currentScoreText);
+
     const currentScore=gettingScore("current-score");
     const newScore=currentScore+1;
-    const score=storeScore(newScore);
+  
     // currentScoreElement.innerText=newScore;
     updateTheScore("current-score",newScore)
     // score update ended
@@ -73,25 +78,27 @@ function handleKeyboardKeyUpEvent(event){
   showInTheScreen(random);  
   }
   else{
-    console.log("you lost and lost a life");
-    // const currentLifeElement=document.getElementById("current-life");
-    // const currentLifeText=currentLifeElement.innerText;
-    // const currentLife=parseInt(currentLifeText);
+
+    audio.src="../wronganswer.mp3"
+    audio.play();
     const currentLife=gettingScore("current-life")
     const newLife=currentLife-1;
-    // currentLifeElement.innerText=newLife;
+    const newLifePercentage=(newLife/5)*100;
+    console.log(newLifePercentage);
+    artBoard.style.background=`linear-gradient(#ffffffb2 ${newLifePercentage}%,red)`;
     updateTheScore("current-life",newLife);
     if(newLife===0){
       gameOver();
     }
 
   }
-  // showInTheScreen();
+
 }
 document.addEventListener('keyup',handleKeyboardKeyUpEvent);
 
 
 function playNow(){
+  isSelected=true;
   hideElementById("section-1");
   visibleElementById("section-2");
   const random=getRandomAlphabet();
@@ -100,19 +107,21 @@ function playNow(){
 }
 
 function gameOver(){
+  isSelected=false;
   hideElementById("section-2");
   visibleElementById("section-3");
   const scoreBoardElement=document.getElementById("score-board");
   scoreBoardElement.innerText=document.getElementById("current-score").innerText;
-  // const scoreBoard=gettingScore("score-board");
-  // updateTheScore
+
 }
 
 function playAgain(){
+  isSelected=true;
   hideElementById("section-3");
   visibleElementById("section-2");
   const newLife=5;
   updateTheScore("current-life",newLife);
   const newScore=0;
   updateTheScore("current-score",newScore);
+  artBoard.removeAttribute("style","background");
 }
